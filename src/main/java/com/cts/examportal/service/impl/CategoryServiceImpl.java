@@ -21,14 +21,11 @@ public class CategoryServiceImpl implements CategoryService {
         return this.categoryRepository.save(category);
     }
 
-    @Override
-    public Category updateCategory(Category category) {
-        return this.categoryRepository.save(category);
-    }
+  
 
     @Override
     public Set<Category> getCategories() {
-        return new LinkedHashSet<>(this.categoryRepository.findAll());
+        return new LinkedHashSet<>(this.categoryRepository.findAll());//give list that's why need for typecast
     }
 
     @Override
@@ -41,5 +38,23 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
         category.setCid(categoryId);
         this.categoryRepository.delete(category);
+    }
+    
+    /*@Override
+    public Category updateCategory(Category category) {
+        return this.categoryRepository.save(category);
+    }*/
+    @Override
+    public Category updateCategory(Long id,Category category) {
+    	
+    	Category localCategory=this.categoryRepository.findById(id).get();
+    	
+    	if(category.getTitle()!=null) {
+    		localCategory.setTitle(category.getTitle());
+    	}
+    	if(category.getDescription()!=null) {
+    		localCategory.setDescription(category.getDescription());
+    	}
+        return this.categoryRepository.save(localCategory);
     }
 }

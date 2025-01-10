@@ -3,9 +3,11 @@ package com.cts.examportal.service.impl;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cts.examportal.helper.UserFoundException;
+import com.cts.examportal.helper.UserNotFoundException;
 import com.cts.examportal.model.User;
 import com.cts.examportal.model.UserRole;
 import com.cts.examportal.repository.RoleRepository;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+    
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     //creating user
     @Override
@@ -55,28 +60,47 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long userId) {
         this.userRepository.deleteById(userId);
     }
+
+	@Override
+	public User updateUser(Long id,User user) throws UserNotFoundException  {
+		// TODO Auto-generated method stub
+		//return this.userRepository.save(user);
+		User localuser=this.userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+		
+		if(user.getUsername()!= null) {
+			localuser.setUsername(user.getUsername());
+		}
+		
+		if(user.getPassword() != null) {
+			localuser.setPassword(encoder.encode(user.getPassword()));
+		}
+		
+		if(user.getFirstName() != null) {
+			localuser.setFirstName(user.getFirstName());
+		}
+		
+		if(user.getLastName() != null) {
+			localuser.setLastName(user.getLastName());
+		}
+		
+		if(user.getEmail() != null) {
+			localuser.setEmail(user.getEmail());
+		}
+		if(user.getPhone() != null) {
+			localuser.setPhone(user.getPhone());
+		}
+		
+		
+		return this.userRepository.save(localuser);
+		
+		
+		
+		
+		
+		
+	}
     
-   /* @Override
-    public User getUser(Long userId) {
-        return this.userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
-    }
-    
-    @Override
-    public User updateUser(User user) {
-    	try {
-    		User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User not found with id: " + user.getId()));
-            existingUser.setUsername(user.getUsername()); // Update username if provided
-            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword())); // Encode password before update
-            // Update other user fields as needed
-            return userRepository.save(existingUser);
-    		
-    	} catch (UserNotFoundException e) {
-            // Handle the exception here (e.g., log the error)
-            log.error("User not found during update: {}", e.getMessage()); 
-            throw e; // Re-throw the exception to be handled at a higher level
-        }
-        
-    }*/
+ 
 
 
 }

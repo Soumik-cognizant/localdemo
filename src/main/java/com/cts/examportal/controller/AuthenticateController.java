@@ -22,7 +22,6 @@ import com.cts.examportal.service.impl.UserDetailsServiceImpl;
 import java.security.Principal;
 
 @RestController
-//@CrossOrigin("*")
 public class AuthenticateController {
 
 

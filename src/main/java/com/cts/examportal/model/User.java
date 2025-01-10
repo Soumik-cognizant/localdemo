@@ -10,19 +10,55 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+   // private String username;
+    @NotNull(message = "Username is required")
+    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @Column(unique = true) 
+    @NotBlank
     private String username;
+    
+    //private String password;
+
+    @NotNull(message = "Password is required")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?=\\S+$).{8,}$", 
+             message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and be at least 8 characters long")
     private String password;
+    
+    //private String firstName;
+
+    @NotNull(message = "First name is required")
+    @Size(min = 3, max = 50, message = "First name must be between 3 and 50 characters")
     private String firstName;
+
+    
+  //  private String lastName;
+
+    @NotNull(message = "Last name is required")
+    @Size(min = 3, max = 50, message = "Last name must be between 3 and 50 characters")
     private String lastName;
+    
+   // private String email;
+    @Email(message = "Invalid email format")
+    @NotNull(message = "Email is required")
     private String email;
+    
+    //private String phone;
+    @NotNull(message = "Phone number is required")
+    @Size(min = 10, max = 10, message = "Phone number must be 10 digits") 
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must contain only digits")
     private String phone;
     private boolean enabled = true;
     private String profile;

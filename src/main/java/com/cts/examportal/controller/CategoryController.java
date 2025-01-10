@@ -11,7 +11,7 @@ import com.cts.examportal.service.CategoryService;
 
 @RestController
 @RequestMapping("/category")
-@CrossOrigin("*")
+
 public class CategoryController {
 
     @Autowired
@@ -37,14 +37,15 @@ public class CategoryController {
     }
 
     //update category
-    @PutMapping("/")
-    public Category updateCategory(@RequestBody Category category) {
-        return this.categoryService.updateCategory(category);
+    
+    @PutMapping("/{categoryId}")
+    public Category updateCategory(@PathVariable("categoryId") Long id, @RequestBody Category category) {
+        return this.categoryService.updateCategory(id,category);
     }
 
     //delete category
     @DeleteMapping("/{categoryId}")
-    public void deleteCategory(@PathVariable("categoryId") Long categoryId) {
+    public void deleteCategory(@PathVariable Long categoryId) {
         this.categoryService.deleteCategory(categoryId);
     }
 

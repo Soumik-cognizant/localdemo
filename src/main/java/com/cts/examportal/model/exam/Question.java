@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class Question {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quesId;
     @Column(length = 5000)
     private String content;
@@ -24,7 +24,7 @@ public class Question {
     @Transient
     private  String givenAnswer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     private Quiz quiz;
 
     public Question() {

@@ -6,6 +6,7 @@ package com.cts.examportal.service;
 
 import java.util.Set;
 
+import com.cts.examportal.helper.UserNotFoundException;
 import com.cts.examportal.model.User;
 import com.cts.examportal.model.UserRole;
 
@@ -19,6 +20,9 @@ public interface UserService {
 
     //delete user by id
     public void deleteUser(Long userId);
+    
+    //update user
+    public User updateUser(Long id,User user) throws UserNotFoundException;
 
 
     

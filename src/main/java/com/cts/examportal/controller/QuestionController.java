@@ -15,7 +15,7 @@ import javax.management.Query;
 import java.util.*;
 
 @RestController
-@CrossOrigin("*")
+
 @RequestMapping("/question")
 public class QuestionController {
     @Autowired
@@ -25,9 +25,9 @@ public class QuestionController {
     private QuizService quizService;
 
     //add question
-    @PostMapping("/")
-    public ResponseEntity<Question> add(@RequestBody Question question) {
-        return ResponseEntity.ok(this.service.addQuestion(question));
+    @PostMapping("/{qid}")
+    public ResponseEntity<Question> add(@RequestBody Question question,@PathVariable("qid") Long qid) {
+        return ResponseEntity.ok(this.service.addQuestion(question,qid));
     }
 
     //update the question
@@ -36,7 +36,7 @@ public class QuestionController {
         return ResponseEntity.ok(this.service.updateQuestion(question));
     }
 
-    //get all question of any quid
+    //get all question of any quiz
     @GetMapping("/quiz/{qid}")
     public ResponseEntity<?> getQuestionsOfQuiz(@PathVariable("qid") Long qid) {
 //        Quiz quiz = new Quiz();

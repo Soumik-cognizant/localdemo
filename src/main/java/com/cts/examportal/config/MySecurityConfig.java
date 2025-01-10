@@ -124,11 +124,27 @@ public class MySecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF
                 .cors(cors -> cors.disable()) // Disable CORS
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/generate-token", "/user").permitAll() 
+           /*     .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/generate-token", "/user/**").permitAll() 
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated()
-                    )              
+                    ) this is by default i crrate rest    */   
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/generate-token").permitAll() //public access to generate token
+                        .requestMatchers(HttpMethod.POST, "/user/").permitAll()//public access to create a user
+                    
+                        .requestMatchers(HttpMethod.GET, "/user/**").authenticated()//restricted access to get user details
+                        .requestMatchers(HttpMethod.PUT, "/user/**").hasAuthority("NORMAL") //restricted access to update user
+//                        .requestMatchers(HttpMethod.PUT, "/user/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/user/**").hasAuthority("ADMIN")//RESTRICT access to delete user
+                        .requestMatchers(HttpMethod.POST, "/category/").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/category/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/category/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/category/**").hasAuthority("ADMIN")
+                        
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                        .anyRequest().authenticated()
+                    )
                 .exceptionHandling(exceptionHandling -> exceptionHandling 
                         .authenticationEntryPoint(unauthorizedHandler)) // Configure exception handling
                 .sessionManagement(sessionManagement -> sessionManagement 

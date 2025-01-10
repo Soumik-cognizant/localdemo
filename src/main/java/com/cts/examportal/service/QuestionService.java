@@ -10,7 +10,7 @@ import com.cts.examportal.model.exam.Quiz;
 
 public interface QuestionService {
 
-    public Question addQuestion(Question question);
+    public Question addQuestion(Question question,Long qid);
 
     public Question updateQuestion(Question question);
 

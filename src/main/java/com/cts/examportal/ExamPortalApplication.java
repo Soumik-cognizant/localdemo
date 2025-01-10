@@ -44,9 +44,10 @@ public class ExamPortalApplication implements CommandLineRunner {
 	            user.setFirstName("Soumik");
 	            user.setLastName("Das");
 	            user.setUsername("soumik8896");
-	            user.setPassword(this.bCryptPasswordEncoder.encode("abc"));
+	            user.setPassword(this.bCryptPasswordEncoder.encode("Abcde123@"));
 	            user.setEmail("abc@gmail.com");
 	            user.setProfile("default.png");
+	            user.setPhone("6290922236");
 
 	            Role role1 = new Role();
 	            role1.setRoleId(44L);
