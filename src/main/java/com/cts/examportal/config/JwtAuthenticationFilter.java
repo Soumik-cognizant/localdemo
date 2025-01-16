@@ -83,6 +83,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 package com.cts.examportal.config;
 
+
 import com.cts.examportal.service.impl.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -102,6 +103,7 @@ import java.io.IOException;
 /**
  * JWT Authentication Filter for Spring Security.
  */
+// 2nd time comment out it was final 105 to 155 line
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -152,3 +154,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
+

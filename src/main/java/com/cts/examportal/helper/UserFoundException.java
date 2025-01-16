@@ -1,5 +1,6 @@
 package com.cts.examportal.helper;
 
+@SuppressWarnings("serial")
 public class UserFoundException extends Exception{
 
 	
