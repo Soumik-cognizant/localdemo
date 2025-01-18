@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import com.cts.examportal.config.JwtUtils;
+import com.cts.examportal.helper.InvalidCredentialsException;
+import com.cts.examportal.helper.UserDisabledException;
 import com.cts.examportal.helper.UserNotFoundException;
 import com.cts.examportal.model.JwtRequest;
 import com.cts.examportal.model.JwtResponse;
@@ -63,7 +65,7 @@ public class AuthenticateController {
     
     private void authenticate(String username, String password) throws Exception {
 
-        try {
+      /*  try {
 
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
@@ -71,7 +73,15 @@ public class AuthenticateController {
             throw new Exception("USER DISABLED " + e.getMessage());
         } catch (BadCredentialsException e) {
             throw new Exception("Invalid Credentials " + e.getMessage());
-        }
+        }*/
+    	
+    	  try {
+    	        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+    	    } catch (DisabledException e) {
+    	        throw new UserDisabledException("USER DISABLED: " + e.getMessage());
+    	    } catch (BadCredentialsException e) {
+    	        throw new InvalidCredentialsException("Invalid Credentials: " + e.getMessage());
+    	    }
     }
 
     //return the details of current user
